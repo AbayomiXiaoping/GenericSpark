@@ -27,14 +27,23 @@ string defaultValue: 'master', name : 'BRANCH_NAME'
 stages{
  stage('Clean Workspace'){
  steps{
-   echo "GIT Checkout"
+   echo "Clean Workspace"
+   cleanWs()
+
+ }
+ }
+
+ stage('GIT Checkout'){
+ steps{
+ echo "GIT Checkout"
    git branch: "${params.BRANCH_NAME}", credentialsId: "${credentialID}", url: "${gitURL}"
  }
  }
 
  stage('SBT Publish'){
  steps{
- withCredentials()
+ echo "SBT Publish"
+ sh "sbt publish"
  }
  }
 
